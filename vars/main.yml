@@ -1,0 +1,37 @@
+---
+go_arch_map:
+  i386: '386'
+  x86_64: 'amd64'
+  aarch64: 'arm64'
+  armv7l: 'armv7'
+  armv6l: 'armv6'
+
+kafka_exporter_base_url: "https://github.com/danielqsj/kafka_exporter/releases/download/v"
+kafka_exporter_system_group: "kafka-exporter"
+kafka_exporter_system_user: "{{ kafka_exporter_system_group }}"
+kafka_exporter_web_path: /metrics
+
+kafka_expoter_systemd:
+  - service_name: kafka_exporter.service
+    service_enabled: true
+    service_status: started
+    service_config:
+        Unit:
+            Description: Prometheus Kafka Exporter
+            Wants: network-online.target
+            After: network-online.target
+        Service:
+            Type: simple
+            User: '{{ kafka_exporter_system_user }}'
+            Group: '{{ kafka_exporter_system_group }}'
+            ExecStart: |
+              /usr/local/bin/kafka_exporter --kafka.server={{ kafka_server }} \
+                                            --kafka.version={{ kafka_server_version }} \
+                                            --topic.filter={{ kafka_exporter_topic_filter }} \
+                                            --group.filter={{ kafka_exporter_group_filter }} \
+                                            --web.listen-address={{ kafka_exporter_listen_addr }}:{{ kafka_exporter_listen_port }} \
+                                            --web.telemetry-path={{ kafka_exporter_web_path }}
+            SyslogIdentifier: kafka_exporter
+            Restart: always
+        Install:
+            WantedBy: multi-user.target          

@@ -1,0 +1,8 @@
+---
+kafka_exporter_version: 1.2.0
+kafka_exporter_topic_filter: .*
+kafka_exporter_group_filter: .*
+kafka_exporter_listen_addr: 0.0.0.0
+kafka_exporter_listen_port: 9308
+kafka_server: 127.0.0.1:9092
+kafka_server_version: 1.0.0
