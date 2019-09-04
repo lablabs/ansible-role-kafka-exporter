@@ -21,7 +21,7 @@ galaxy_info:
     - system
 
 dependencies:
-    - name: lablabs.systemd-service
+    - name: systemd-service
       src: https://github.com/lablabs/ansible-role-systemd-service.git
       scm: git
       version: master
