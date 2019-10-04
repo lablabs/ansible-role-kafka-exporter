@@ -20,6 +20,7 @@ kafka_expoter_systemd:
             Description: Prometheus Kafka Exporter
             Wants: network-online.target
             After: network-online.target
+            StartLimitIntervalSec: 0
         Service:
             Type: simple
             User: '{{ kafka_exporter_system_user }}'
@@ -33,5 +34,6 @@ kafka_expoter_systemd:
                                             --web.telemetry-path={{ kafka_exporter_web_path }}
             SyslogIdentifier: kafka_exporter
             Restart: always
+            RestartSec: 1
         Install:
             WantedBy: multi-user.target          
